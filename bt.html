@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <style>
+        div.kt {
+            border: 1px solid rgb(127, 142, 224);
+            margin-right: 1200px;
+        }
+    </style>
+    <script>
+        function kiemtra_songuyento(m) {
+            if (m == 2) return true;
+            else if (m < 2) return false;
+            else {
+                for (var i = 2; i <= Math.sqrt(m); i++)
+                {
+                    if (m % i == 0)   
+                        return false;
+                }
+                return true;
+            }
+        }
+        var a = [];
+        var b = [];
+        function thongke_mang(n) {
+            var dem = 0;
+            for (var i = 0; i < n; i++)
+                if (kiemtra_songuyento(a[i]) == true) dem++;
+            return dem;
+        }
+
+        function luutruSNT(n) {
+            var kq = "";
+            var dem = 0;
+            for (var i = 0; i < n; i++)
+            {
+                if (kiemtra_songuyento(a[i]) == true)
+                    b[dem++] = a[i];
+            }
+        }
+
+        function duyet_mang(n)
+        {
+            for (var i = 0; i <= n; i++)
+            {
+                a[i] = Math.floor((Math.random() * 100) + 1);
+            }
+        }
+
+        function xuata(n) {
+            var kq = "";
+            for (var i = 0; i < n; i++)
+            {
+                if (i != n - 1)
+                    kq += a[i] + ", ";
+                else
+                    kq += a[i];
+            }
+            return kq;
+        }
+
+        function xuatb(n) {
+            var kq = "";
+            for (var i = 0; i < n; i++)
+            {
+                if (i != n - 1)
+                    kq += b[i] + ", ";
+                else
+                    kq += b[i];
+            }
+            return kq;
+        }
+
+        $(document).ready(function() {
+            $("#kq").click(function() {
+                var gt = $("#snt").val();
+                var kq = "";
+                if (gt == "") {
+                    $("#snt").css({
+                        "border": "1px solid red"
+                    })
+                }
+                else {
+                    $("#snt").css({
+                        "border": "0"
+                    })
+                    if (kiemtra_songuyento(gt) == true)
+                        kq = gt + " là số nguyên tố."
+                    else
+                        kq = gt + " không phải là số nguyên tố."
+                }
+                $("#xuat").html(kq);
+            })
+
+            $("#kiemtra").click(function() {
+                var spt = $("#spt").val();
+                var kq = "";
+                if (spt == "") {
+                    $("#spt").css({
+                        "border": "1px solid red"
+                    })
+                }
+                else
+                {
+                    duyet_mang(spt);
+                    luutruSNT(spt);
+                    $("#cpt").html("Các phần tử đang lưu trữ trong mảng là: " + xuata(spt));
+                    if (thongke_mang(spt) == 0)
+                        kq = "Mảng đang lưu trữ không có số nguyên tố";
+                    else
+                        kq = "Mảng đang lưu trữ có " + thongke_mang(spt) + " số nguyên tố là: " + xuatb(thongke_mang(spt));
+                }
+                $("#ketqua").html(kq);
+            })
+        })
+        
+    </script>
+</head>
+<body>
+    <div class="kt">
+        <table>
+            <tr>
+                <td>Nhập số cần kiểm tra: </td>
+                <td class="solieu">
+                    <input type="text" id="snt">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="Kiểm tra" id="kq">
+                </td>
+            </tr>
+        </table>
+        <p id="xuat"></p>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>Nhập số phần tử: </td>
+                <td>
+                    <input type="text" id="spt">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="button" value="kiểm tra" id="kiemtra"></td>
+            </tr>
+        </table>
+        <span id="cpt"></span>
+        <p id="ketqua"></p>
+    </div>
+</body>
+</html>
